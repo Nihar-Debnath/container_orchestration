@@ -1,0 +1,33 @@
+{
+  "family": "{{ECR_REPOSITORY}}",
+  "executionRoleArn": "arn:aws:iam::{{AWS_ACCOUNT_ID}}:role/ecsTaskExecutionRole",
+  "containerDefinitions": [
+    {
+      "name": "{{ECR_REPOSITORY}}",
+      "image": "{{AWS_ACCOUNT_ID}}.dkr.ecr.{{AWS_REGION}}.amazonaws.com/{{ECR_REPOSITORY}}:latest",
+      "portMappings": [
+        {
+          "containerPort": 3000,
+          "protocol": "tcp"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/{{ECR_REPOSITORY}}",
+          "awslogs-region": "{{AWS_REGION}}",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+      "essential": true
+    }
+  ],
+  "cpu": "1024",
+  "memory": "3072",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "runtimePlatform": {
+    "cpuArchitecture": "X86_64",
+    "operatingSystemFamily": "LINUX"
+  }
+}
